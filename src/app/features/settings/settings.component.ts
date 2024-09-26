@@ -48,9 +48,11 @@ export default class SettingsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.settingsForm.patchValue(
-      this.userService.getCurrentUser() as Partial<User>,
-    );
+    this.userService.getCurrentUser().subscribe({
+      next: ({ user }) => {
+        this.settingsForm.patchValue(user as Partial<User>);
+      },
+    });
   }
 
   logout(): void {
